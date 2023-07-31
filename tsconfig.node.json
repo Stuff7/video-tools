@@ -5,7 +5,8 @@
   ],
   "compilerOptions": {
     "composite": true,
-    "noEmit": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
     "checkJs": true,
     "module": "ESNext",
     "types": [
