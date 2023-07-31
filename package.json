@@ -1,6 +1,6 @@
 {
-  "name": "work-update-gen",
-  "version": "0.0.0",
+  "name": "video-tools",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
