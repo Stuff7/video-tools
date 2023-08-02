@@ -1,9 +1,7 @@
-import { resolve } from "node:path";
-
 import { defineConfig } from "vite";
+import { createCommonConfig } from "./vite.config.common";
 
 export default defineConfig({
-  publicDir: false,
   build: {
     outDir: "dist/content",
     assetsDir: ".",
@@ -16,9 +14,5 @@ export default defineConfig({
       fileName: (_, name) => `${name}.js`,
     },
   },
-  resolve: {
-    alias: {
-      "~": resolve("./src"),
-    },
-  },
+  ...createCommonConfig("./content.html"),
 });

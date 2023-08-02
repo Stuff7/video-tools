@@ -1,26 +1,4 @@
-$light: #f2f2f2;
-$light-accent: #41b883;
-$light-error: #cd5c5c;
-$dark: #222222;
-$dark-accent: #2a7955;
-$dark-error: #cf0404;
-
-:root {
-  --spacing-nm: #{clamp(0.625rem, 0.5vw, 0.75rem)};
-  --radius-nm: #{clamp(0.35rem, 0.35vw, 0.5rem)};
-
-  --color-background: #{$light};
-  --color-text: #{$dark};
-  --color-accent: #{$dark-accent};
-  --color-error: #{$dark-error};
-
-  @media (prefers-color-scheme: dark) {
-    --color-background: #{$dark};
-    --color-text: #{$light};
-    --color-accent: #{$light-accent};
-    --color-error: #{$light-error};
-  }
-}
+@import "~/style/base.scss";
 
 body {
   display: flex;
@@ -31,5 +9,4 @@ body {
 
 *, *::before, *::after {
   font-family: "Consolas", "Menlo", "Monaco", "Courier New", monospace;
-  box-sizing: border-box;
 }

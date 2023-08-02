@@ -1,4 +1,7 @@
 import "~/style/main.scss";
-import VideoTools from "~/VideoTools.svelte";
+import Extension from "~/Extension.svelte";
+import { polyfill } from "~/api";
 
-export default new VideoTools({ target: document.body });
+polyfill();
+
+export default new Extension({ target: document.body });

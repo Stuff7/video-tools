@@ -6,3 +6,8 @@ declare module "*.svelte" {
   const component: ComponentType;
   export default component;
 }
+
+declare type BrowserRequest = {
+  showSubsUploadArea: boolean,
+  subtitles: string,
+}

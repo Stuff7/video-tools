@@ -1,13 +1,23 @@
-import { createVttBlob, setSubtitlesForVideo } from "~/api";
+import Content from "~/Content.svelte";
+import { polyfill } from "~/api";
 
-console.log("[video-tools] LOADED CONTENT SCRIPT");
-browser.runtime.onMessage.addListener((request: { subtitles: string }) => {
-  console.log("CONTENT RECEIVED MESSAGE", request);
-  if (request.subtitles) {
-    const blob = createVttBlob(request.subtitles);
-    console.log("BLOB", blob);
-    document.querySelectorAll("video").forEach(v => {
-      setSubtitlesForVideo(v, blob);
-    });
-  }
-});
+polyfill();
+
+if (import.meta.env.PROD) {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.type = "text/css";
+  link.dataset.videoToolsExt = "";
+  link.href = browser.extension.getURL("content/style.css");
+  document.head.appendChild(link);
+}
+
+let content: Content | null = null;
+
+function mount() {
+  content?.$destroy();
+  content = new Content({ target: document.fullscreenElement || document.documentElement });
+}
+
+document.addEventListener("fullscreenchange", mount);
+mount();

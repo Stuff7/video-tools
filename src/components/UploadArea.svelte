@@ -2,6 +2,11 @@
 import { createEventDispatcher } from "svelte";
 import { srtToWebVTT } from "~/api";
 
+export let width: string | null = null;
+export let height: string | null = null;
+export let left: string | null = null;
+export let top: string | null = null;
+export let position: string | null = null;
 let fileContent = "";
 
 const dispatch = createEventDispatcher<{ upload: string }>();
@@ -31,6 +36,11 @@ async function readFile(file: File) {
 
 <button
   class="UploadArea"
+  style:width
+  style:height
+  style:left
+  style:top
+  style:position
   on:drop={handleDrop}
   on:dragover={(event) => event.preventDefault()}
   on:click={() => {
@@ -49,14 +59,15 @@ async function readFile(file: File) {
 
 <style lang="scss">
 .UploadArea {
-  border: 2px dashed var(--color-background);
+  opacity: 0.75;
+  border: 2px dashed var(--color-text);
   border-radius: var(--radius-nm);
   padding: 1rem;
   text-align: center;
   cursor: pointer;
-  background: var(--color-text);
-  color: var(--color-background);
-  font-size: 1rem;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-size: clamp(2rem, 8vw, 4rem);
   outline: 0;
 
   &:focus {
