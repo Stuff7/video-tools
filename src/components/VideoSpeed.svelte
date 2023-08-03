@@ -53,8 +53,9 @@ $: videoElem.playbackRate = speed;
 <style lang="scss">
 .VideoSpeed {
   position: absolute;
-  left: var(--spacing-nm);
-  top: var(--spacing-nm);
+  left: 50%;
+  translate: -50% 0;
+  top: calc(var(--spacing-nm) * 2);
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
