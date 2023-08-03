@@ -8,7 +8,7 @@ if (import.meta.env.PROD) {
   link.rel = "stylesheet";
   link.type = "text/css";
   link.dataset.videoToolsExt = "";
-  link.href = browser.extension.getURL("content/style.css");
+  link.href = browser.runtime.getURL("content/style.css");
   document.head.appendChild(link);
 }
 
@@ -16,7 +16,7 @@ let content: Content | null = null;
 
 function mount() {
   content?.$destroy();
-  content = new Content({ target: document.fullscreenElement || document.documentElement });
+  content = new Content({ target: document.fullscreenElement || document.body });
 }
 
 document.addEventListener("fullscreenchange", mount);

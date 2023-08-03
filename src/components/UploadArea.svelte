@@ -59,7 +59,7 @@ async function readFile(file: File) {
 
 <style lang="scss">
 .UploadArea {
-  opacity: 0.75;
+  opacity: 0.8;
   border: 2px dashed var(--color-text);
   border-radius: var(--radius-nm);
   padding: 1rem;
@@ -67,11 +67,13 @@ async function readFile(file: File) {
   cursor: pointer;
   background: var(--color-background);
   color: var(--color-text);
-  font-size: clamp(2rem, 8vw, 4rem);
+  font-size: clamp(2rem, 8vw, 3rem);
   outline: 0;
+  transition: border-color 0.1s, color 0.1s;
 
-  &:focus {
+  &:focus, &:hover {
     border-color: var(--color-accent);
+    color: var(--color-accent);
   }
 }
 </style>

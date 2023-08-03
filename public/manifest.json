@@ -1,15 +1,16 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Video Tools",
-  "version": "1.4",
+  "version": "1.5",
   "description": "Tools for video",
   "permissions": [
-    "<all_urls>",
     "activeTab",
     "storage"
   ],
-  "web_accessible_resources": [
-    "content/style.css"
+  "web_accessible_resources": [{
+      "resources": ["content/style.css"],
+      "matches": ["<all_urls>"]
+    }
   ],
   "content_scripts": [
     {
@@ -17,7 +18,7 @@
       "js": ["content/index.js"]
     }
   ],
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png"

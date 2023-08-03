@@ -2,9 +2,10 @@
 import { scale } from "svelte/transition";
 import { SHORTCUTS_ON_KEY } from "~/api";
 
+export let videoElem: HTMLVideoElement;
+let speed = videoElem.playbackRate;
 let timeoutId = -1;
 let visible = false;
-let speed = 1;
 let increase = false;
 
 async function adjustSpeed({ key }: KeyboardEvent) {
@@ -22,52 +23,53 @@ async function adjustSpeed({ key }: KeyboardEvent) {
   if (key === "[") {
     speed = Math.max(0.25, speed - 0.25);
     increase = false;
-    visible = true;
+    show();
   } else if (key === "]") {
     speed = Math.min(10, speed + 0.25);
     increase = true;
-    visible = true;
+
+    show();
   }
 }
 
-$: document.querySelectorAll("video").forEach(video => video.playbackRate = speed);
-$: if (visible) {
+function show() {
   clearTimeout(timeoutId);
+  visible = true;
   timeoutId = setTimeout(() => {
     visible = false;
   }, 2e3);
 }
+
+$: videoElem.playbackRate = speed;
 </script>
 
 <svelte:document on:keydown={adjustSpeed} />
 {#if visible}
-  <div class="VideoSpeed" class:increase transition:scale>
+  <div class="VideoSpeed" class:increase transition:scale={{ duration: 200 }}>
     {speed}
   </div>
 {/if}
 
 <style lang="scss">
 .VideoSpeed {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  background: rgb(0,0,0,0.5);
+  position: absolute;
+  left: var(--spacing-nm);
+  top: var(--spacing-nm);
   color: white;
-  font: 1.5rem "Fira Sans", sans-serif;
+  font-size: 1.5rem;
   font-weight: bold;
-  padding: 2rem;
+  padding: var(--spacing-nm);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 8rem;
-  border: 1px solid rgb(255,255,255,0.5);
-  border-radius: 5px;
+  width: 5.5rem;
+  border: 2px solid rgb(255,255,255,0.5);
+  border-radius: var(--radius-nm);
   pointer-events: none;
-  background: #8b000088;
+  background: #8b0000AA;
 
   &.increase {
-    background: #00640088;
+    background: #006400AA;
   }
 }
 </style>

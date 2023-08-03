@@ -1,42 +1,51 @@
 <script lang="ts">
 import "~/style/base.scss";
 import { onDestroy, onMount } from "svelte";
-import { createVttBlob, setSubtitlesForVideo } from "~/api";
-import UploadZone from "~/components/UploadArea.svelte";
-import VideoSpeed from "~/components/VideoSpeed.svelte";
+import VideoTools from "./components/VideoTools.svelte";
 
-let subtitles: string | null = null;
-
-$: if (subtitles) {
-  const blob = createVttBlob(subtitles);
-  document.querySelectorAll("video").forEach(v => {
-    setSubtitlesForVideo(v, blob);
-  });
-  subsUploadVisible = false;
+type Video = {
+  id: string,
+  videoElem: HTMLVideoElement,
 }
 
-let subsUploadVisible = import.meta.env.DEV;
+let videos: Video[] = [];
+let subsUploadOn = import.meta.env.DEV;
+
+function reflow() {
+  videos = videos;
+}
 
 function onBrowserMessage(request: BrowserRequest) {
-  subsUploadVisible = !!request.showSubsUploadArea;
-  if (request.subtitles) {
-    subtitles = request.subtitles;
-  }
+  subsUploadOn = !!request.showSubsUploadArea;
 }
 
-onMount(() => browser.runtime.onMessage.addListener(onBrowserMessage));
-onDestroy(() => browser.runtime.onMessage.removeListener(onBrowserMessage));
+onMount(() => {
+  videos = [...document.querySelectorAll("video")].map(videoElem => {
+    videoElem.addEventListener("loadeddata", reflow);
+
+    return {
+      id: crypto.randomUUID(),
+      videoElem,
+    };
+  });
+  browser.runtime.onMessage.addListener(onBrowserMessage);
+});
+
+onDestroy(() => {
+  videos.forEach(({ videoElem }) => videoElem.removeEventListener("loadeddata", reflow));
+  browser.runtime.onMessage.removeListener(onBrowserMessage);
+});
 </script>
 
-<div class="Content">
-  {#if subsUploadVisible}
-    <UploadZone on:upload={(event) => subtitles = event.detail} width="100%" height="100%" />
-  {/if}
-  <VideoSpeed />
+<svelte:window on:resize={reflow} />
+<div class="VideoToolsExt">
+  {#each videos as { id, videoElem } (id)}
+    <VideoTools {videoElem} {subsUploadOn} />
+  {/each}
 </div>
 
 <style lang="scss">
-.Content {
+.VideoToolsExt {
   display: flex;
   width: 100%;
   height: 100%;
@@ -47,9 +56,6 @@ onDestroy(() => browser.runtime.onMessage.removeListener(onBrowserMessage));
   position: absolute;
   z-index: 1;
   pointer-events: none;
-
-  :global(*) {
-    pointer-events: all;
-  }
+  font-family: "Consolas", "Menlo", "Monaco", "Courier New", monospace;
 }
 </style>
