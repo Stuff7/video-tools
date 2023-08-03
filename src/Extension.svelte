@@ -33,21 +33,21 @@ $: if (enabled !== null) {
 .VideoTools {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-nm);
-  background: var(--color-background);
-  color: var(--color-text);
+  gap: var(--VTExt__spacing-nm);
+  background: var(--VTExt__color-background);
+  color: var(--VTExt__color-text);
   width: 200px;
-  padding: var(--spacing-nm);
+  padding: var(--VTExt__spacing-nm);
 
   .checkbox {
     border-radius: 20%;
-    border: 3px solid var(--color-text);
+    border: 3px solid var(--VTExt__color-text);
     cursor: pointer;
     position: relative;
 
     &:hover, &.focused, &.enabled {
-      border-color: var(--color-accent);
-      color: var(--color-accent);
+      border-color: var(--VTExt__color-accent);
+      color: var(--VTExt__color-accent);
     }
 
     input {
@@ -62,8 +62,8 @@ $: if (enabled !== null) {
     p {
       display: flex;
       flex-direction: column;
-      padding: var(--spacing-nm);
-      margin: var(--spacing-nm);
+      padding: var(--VTExt__spacing-nm);
+      margin: var(--VTExt__spacing-nm);
       text-align: center;
       aspect-ratio: 2 / 1;
       border-radius: inherit;
@@ -75,38 +75,38 @@ $: if (enabled !== null) {
     }
 
     input:checked + p {
-      background: var(--color-accent);
-      color: var(--color-background);
+      background: var(--VTExt__color-accent);
+      color: var(--VTExt__color-background);
     }
   }
 
   .divider {
     width: 100%;
     height: 2px;
-    background: var(--color-text);
-    margin-block: var(--spacing-sm);
+    background: var(--VTExt__color-text);
+    margin-block: var(--VTExt__spacing-sm);
   }
 
   button {
-    background: var(--color-text);
-    color: var(--color-background);
-    padding: var(--spacing-nm);
+    background: var(--VTExt__color-text);
+    color: var(--VTExt__color-background);
+    padding: var(--VTExt__spacing-nm);
     font-size: 1rem;
     text-transform: uppercase;
     font-weight: bold;
-    border-radius: var(--radius-nm);
+    border-radius: var(--VTExt__radius-nm);
     border: 0;
     cursor: pointer;
       outline: 2px solid transparent;
 
     &:hover {
-      background: var(--color-accent);
+      background: var(--VTExt__color-accent);
     }
 
     &:active, &:focus {
-      background: var(--color-background);
-      color: var(--color-accent);
-      outline-color: var(--color-accent);
+      background: var(--VTExt__color-background);
+      color: var(--VTExt__color-accent);
+      outline-color: var(--VTExt__color-accent);
     }
   }
 }

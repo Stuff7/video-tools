@@ -9,4 +9,5 @@ body {
 
 *, *::before, *::after {
   font-family: "Consolas", "Menlo", "Monaco", "Courier New", monospace;
+  box-sizing: border-box;
 }

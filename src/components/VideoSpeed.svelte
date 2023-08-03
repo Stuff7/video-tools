@@ -27,7 +27,6 @@ async function adjustSpeed({ key }: KeyboardEvent) {
   } else if (key === "]") {
     speed = Math.min(10, speed + 0.25);
     increase = true;
-
     show();
   }
 }
@@ -55,17 +54,17 @@ $: videoElem.playbackRate = speed;
   position: absolute;
   left: 50%;
   translate: -50% 0;
-  top: calc(var(--spacing-nm) * 2);
+  top: calc(var(--VTExt__spacing-nm) * 2);
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
-  padding: var(--spacing-nm);
+  padding: var(--VTExt__spacing-nm);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 5.5rem;
   border: 2px solid rgb(255,255,255,0.5);
-  border-radius: var(--radius-nm);
+  border-radius: var(--VTExt__radius-nm);
   pointer-events: none;
   background: #8b0000AA;
 

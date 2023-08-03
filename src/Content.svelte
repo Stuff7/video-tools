@@ -2,6 +2,7 @@
 import "~/style/base.scss";
 import { onDestroy, onMount } from "svelte";
 import VideoTools from "~/components/VideoTools.svelte";
+import { onVideoAdded } from "./api";
 
 type Video = {
   id: string,
@@ -16,35 +17,29 @@ function reflow() {
 }
 
 function onBrowserMessage(request: BrowserRequest) {
+  findVideos();
   subsUploadOn = !!request.showSubsUploadArea;
 }
 
 function findVideos() {
-  if (!videos.length) {
-    videos = [...document.querySelectorAll("video")].map(videoElem => {
-      if (!videoElem.dataset.videoToolsId) {
-        videoElem.dataset.videoToolsId = crypto.randomUUID();
-        videoElem.addEventListener("loadeddata", reflow);
-        videoElem.addEventListener("play", reflow);
-      }
+  videos = [...document.querySelectorAll("video")].map(videoElem => {
+    if (!videoElem.dataset.videoToolsId) {
+      videoElem.dataset.videoToolsId = crypto.randomUUID();
+      videoElem.addEventListener("loadeddata", reflow);
+      videoElem.addEventListener("play", reflow);
+    }
 
-      return {
-        id: videoElem.dataset.videoToolsId,
-        videoElem,
-      };
-    });
-  }
+    return {
+      id: videoElem.dataset.videoToolsId,
+      videoElem,
+    };
+  });
 }
 
-function tryFindVideos() {
-  findVideos();
-  if (!videos.length) {
-    requestIdleCallback(tryFindVideos);
-  }
-}
+onVideoAdded(findVideos);
 
 onMount(() => {
-  tryFindVideos();
+  findVideos();
   browser.runtime.onMessage.addListener(onBrowserMessage);
 });
 
@@ -77,5 +72,9 @@ onDestroy(() => {
   z-index: 1;
   pointer-events: none;
   font-family: "Consolas", "Menlo", "Monaco", "Courier New", monospace;
+
+  &, :global(*), :global(*::before), :global(*::after) {
+    box-sizing: border-box;
+  }
 }
 </style>

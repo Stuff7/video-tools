@@ -54,6 +54,26 @@ export function getShortcutsOn(callback: (enabled: boolean) => void) {
   });
 }
 
+export function onVideoAdded(callback: (node: HTMLVideoElement) => void) {
+  // Create a new MutationObserver
+  const observer = new MutationObserver(mutationsList => {
+    mutationsList.forEach((mutation) => {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach((node) => {
+          if (node instanceof HTMLVideoElement) {
+            callback(node);
+          }
+        });
+      }
+    });
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+}
+
 function getBrowserStorageKey<T extends string>(key: T) {
   return `video-tools@stuff7.github.io.${key}` as const;
 }

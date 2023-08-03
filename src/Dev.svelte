@@ -16,9 +16,9 @@ const videos = Array.from({ length: 4 }).map(crypto.randomUUID.bind(crypto));
 
 <style lang="scss">
 main {
-  padding: calc(var(--spacing-nm) * 3);
+  padding: calc(var(--VTExt__spacing-nm) * 3);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-nm);
+  gap: var(--VTExt__spacing-nm);
 }
 </style>
