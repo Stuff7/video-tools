@@ -14,14 +14,15 @@ $: if (subtitles) {
   setSubtitlesForVideo(videoElem, blob);
   subsUploadOn = false;
 }
+$: rect = videoElem.getBoundingClientRect();
 </script>
 
 <div
   class="VideoTools"
-  style:width="{videoElem.clientWidth}px"
-  style:height="{videoElem.clientHeight}px"
-  style:left="{videoElem.offsetLeft}px"
-  style:top="{videoElem.offsetTop}px"
+  style:width="{rect.width}px"
+  style:height="{rect.height}px"
+  style:left="{rect.left}px"
+  style:top="{rect.top}px"
 >
   {#if subsUploadOn}
     <UploadZone

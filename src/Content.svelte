@@ -1,7 +1,7 @@
 <script lang="ts">
 import "~/style/base.scss";
 import { onDestroy, onMount } from "svelte";
-import VideoTools from "./components/VideoTools.svelte";
+import VideoTools from "~/components/VideoTools.svelte";
 
 type Video = {
   id: string,
@@ -12,27 +12,47 @@ let videos: Video[] = [];
 let subsUploadOn = import.meta.env.DEV;
 
 function reflow() {
-  videos = videos;
+  videos = videos.filter(({ videoElem }) => document.body.contains(videoElem));
 }
 
 function onBrowserMessage(request: BrowserRequest) {
   subsUploadOn = !!request.showSubsUploadArea;
 }
 
-onMount(() => {
-  videos = [...document.querySelectorAll("video")].map(videoElem => {
-    videoElem.addEventListener("loadeddata", reflow);
+function findVideos() {
+  if (!videos.length) {
+    videos = [...document.querySelectorAll("video")].map(videoElem => {
+      if (!videoElem.dataset.videoToolsId) {
+        videoElem.dataset.videoToolsId = crypto.randomUUID();
+        videoElem.addEventListener("loadeddata", reflow);
+        videoElem.addEventListener("play", reflow);
+      }
 
-    return {
-      id: crypto.randomUUID(),
-      videoElem,
-    };
-  });
+      return {
+        id: videoElem.dataset.videoToolsId,
+        videoElem,
+      };
+    });
+  }
+}
+
+function tryFindVideos() {
+  findVideos();
+  if (!videos.length) {
+    requestIdleCallback(tryFindVideos);
+  }
+}
+
+onMount(() => {
+  tryFindVideos();
   browser.runtime.onMessage.addListener(onBrowserMessage);
 });
 
 onDestroy(() => {
-  videos.forEach(({ videoElem }) => videoElem.removeEventListener("loadeddata", reflow));
+  videos.forEach(({ videoElem }) => {
+    videoElem.removeEventListener("loadeddata", reflow);
+    videoElem.removeEventListener("play", reflow);
+  });
   browser.runtime.onMessage.removeListener(onBrowserMessage);
 });
 </script>

@@ -46,6 +46,14 @@ export function polyfill() {
   }
 }
 
+export function getShortcutsOn(callback: (enabled: boolean) => void) {
+  browser.storage.local.get([SHORTCUTS_ON_KEY]).then(({ [SHORTCUTS_ON_KEY]: videoShortcutsOn = true }) => {
+    if (typeof videoShortcutsOn === "boolean") {
+      callback(videoShortcutsOn);
+    }
+  });
+}
+
 function getBrowserStorageKey<T extends string>(key: T) {
   return `video-tools@stuff7.github.io.${key}` as const;
 }

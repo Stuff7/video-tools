@@ -1,16 +1,12 @@
 <script lang="ts">
-import { SHORTCUTS_ON_KEY, sendToCurrentTab } from "~/api";
+import { SHORTCUTS_ON_KEY, getShortcutsOn, sendToCurrentTab } from "~/api";
 
-let enabled = false;
+let enabled: boolean | null = null;
 let focused = false;
 
-browser.storage.local.get([SHORTCUTS_ON_KEY]).then(({ [SHORTCUTS_ON_KEY]: videoShortcutsOn }) => {
-  if (typeof videoShortcutsOn === "boolean") {
-    enabled = videoShortcutsOn;
-  }
-});
+getShortcutsOn(videoShortcutsOn => enabled = videoShortcutsOn);
 
-$: {
+$: if (enabled !== null) {
   browser.storage.local.set({ [SHORTCUTS_ON_KEY]: enabled }).catch((error) => {
     console.error(`Error saving ${SHORTCUTS_ON_KEY} status: ${error}`);
   });

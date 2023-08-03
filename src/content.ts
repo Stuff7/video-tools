@@ -8,7 +8,7 @@ if (import.meta.env.PROD) {
   link.rel = "stylesheet";
   link.type = "text/css";
   link.dataset.videoToolsExt = "";
-  link.href = browser.runtime.getURL("content/style.css");
+  link.href = browser.extension.getURL("content/style.css");
   document.head.appendChild(link);
 }
 
